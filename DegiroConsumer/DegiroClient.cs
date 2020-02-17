@@ -3,6 +3,7 @@ using System.Net;
 using DegiroConsumer.Constants;
 using DegiroConsumer.Models;
 using DegiroConsumer.Models.Account;
+using DegiroConsumer.RequestPayloads;
 using Newtonsoft.Json;
 using RestSharp;
 

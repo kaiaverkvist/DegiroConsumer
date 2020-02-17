@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DegiroConsumer.Models
+namespace DegiroConsumer.RequestPayloads
 {
     /// <summary>
     /// Represents the JSON used for the login POST.

@@ -6,6 +6,7 @@ namespace DegiroDevelopmentEnvironment
 {
     class Program
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Necessary")]
         static void Main(string[] args)
         {
             Console.WriteLine("Username:");
