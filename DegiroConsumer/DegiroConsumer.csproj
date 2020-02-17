@@ -1,17 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>DegiroConsumer</PackageId>
-    <Version>1.2.0</Version>
-    <Authors>kaiaverkvist (alias kingstone)</Authors>
-    <Company>RED LETTER DAY SOFTWARE</Company>
-    <Title>DEGIRO API Consumer</Title>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
+    <TargetFramework>netstandard2.0</TargetFramework>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <PackageProjectUrl>https://github.com/kaiaverkvist/DegiroConsumer</PackageProjectUrl>
-    <PackageTags>DEGIRO, REST, API, Consumer</PackageTags>
+    <PackageProjectUrl></PackageProjectUrl>
+    <Version>2.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/kaiaverkvist/DegiroConsumer</RepositoryUrl>
+    <RepositoryType>DEGIRO, REST, API, Consumer</RepositoryType>
+    <PackageReleaseNotes>NET Standard.
+</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

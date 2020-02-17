@@ -27,7 +27,6 @@ namespace DegiroDevelopmentEnvironment
             Console.WriteLine("");
 
             Console.WriteLine($"{Client.ClientInfo.Data.Username}, {Client.ClientInfo.Data.IntAccount}");
-
             Console.ReadLine();
         }
     }
