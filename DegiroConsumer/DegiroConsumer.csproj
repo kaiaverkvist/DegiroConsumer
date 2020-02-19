@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl></PackageProjectUrl>
-    <Version>2.0.0</Version>
+    <Version>2.1.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/kaiaverkvist/DegiroConsumer</RepositoryUrl>
     <RepositoryType>DEGIRO, REST, API, Consumer</RepositoryType>

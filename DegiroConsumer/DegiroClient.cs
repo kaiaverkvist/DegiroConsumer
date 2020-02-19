@@ -11,8 +11,8 @@ namespace DegiroConsumer
 {
     public class DegiroClient
     {
-        private readonly string _username;
-        private readonly string _password;
+        private string _username;
+        private string _password;
         //private string _twoFactorOneTimePassword; // Unused, requires addition of /totp to the login url.
 
         public string SessionId;
@@ -22,13 +22,10 @@ namespace DegiroConsumer
         public ClientInfo ClientInfo;
         #endregion
 
-        public DegiroClient(string username, string password)
+        public DegiroClient()
         {
             // Set up the RestSharp client.
             //RestClient _restClient = new RestClient(BaseTraderUrl);
-
-            _username = username;
-            _password = password;
         }
 
         /// <summary>
@@ -36,23 +33,25 @@ namespace DegiroConsumer
         /// </summary>
         /// <exception cref="Exception"></exception>
         /// <returns></returns>
-        public bool Login()
-        {   
-            RestClient restClient = new RestClient(APIConstants.BaseUrl);
-            var request = new RestRequest("/login/secure/login", Method.POST, DataFormat.Json)
-                .AddHeader("content-type", "application/json")
-                .AddBody(JsonConvert.SerializeObject(new Login()
-                {
-                    Username = _username,
-                    Password = _password,
-                    IsRedirectToMobile = false,
-                    IsPassCodeReset = false
-                }));
-                
-            IRestResponse response = restClient.Execute(request);
+        public bool Login(string username, string password)
+        {
+            _username = username;
+            _password = password;
+
+            var loginPayload = JsonConvert.SerializeObject(new Login()
+            {
+                Username = _username,
+                Password = _password,
+                IsRedirectToMobile = false,
+                IsPassCodeReset = false
+            });
+
+            var req = new RequestHelper<IRestResponse>();
+            var response = req.Perform(APIConstants.BaseUrl, "/login/secure/login", Method.POST, body: loginPayload);
+
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception("Unable to access API endpoint for user login.");
+                return false;
             }
 
             #region Update session id
@@ -66,7 +65,7 @@ namespace DegiroConsumer
 
             if (SessionId == null)
             {
-                throw new Exception("Unable to retrieve session from API.");
+                return false;
             }
             #endregion
 
@@ -85,16 +84,8 @@ namespace DegiroConsumer
         /// <returns></returns>
         public SiteConfig UpdateConfig()
         {
-            RestClient restClient = new RestClient(APIConstants.BaseUrl);
-            var request = new RestRequest("/login/secure/config", Method.GET, DataFormat.Json)
-                .AddHeader("content-type", "application/json")
-                .AddCookie(APIConstants.SessionCookieName, SessionId);
-
-            IRestResponse<SiteConfig> response = restClient.Execute<SiteConfig>(request);
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new Exception("Unable to access API endpoint for service discovery.");
-            }
+            var req = new RequestHelper<SiteConfig>();
+            var response = req.Perform(APIConstants.BaseUrl, "/login/secure/config", Method.GET, true, SessionId);
 
             SiteConfig = response.Data;
 
@@ -110,16 +101,8 @@ namespace DegiroConsumer
         /// <returns></returns>
         public ClientInfo GetClientInfo()
         {
-            RestClient restClient = new RestClient(SiteConfig.PaUrl);
-            var request = new RestRequest($"/client?sessionId={SessionId}", Method.GET, DataFormat.Json)
-                .AddHeader("content-type", "application/json")
-                .AddCookie(APIConstants.SessionCookieName, SessionId);
-
-            IRestResponse<ClientInfo> response = restClient.Execute<ClientInfo>(request);
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new Exception("Unable to access API endpoint for client info retrieval.");
-            }
+            var req = new RequestHelper<ClientInfo>();
+            var response = req.Perform(SiteConfig.PaUrl, $"/client?sessionId={SessionId}", Method.GET, true, SessionId);
 
             // Update client info.
             ClientInfo = response.Data;

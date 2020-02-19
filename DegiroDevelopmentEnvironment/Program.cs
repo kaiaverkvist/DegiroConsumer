@@ -16,18 +16,25 @@ namespace DegiroDevelopmentEnvironment
             var password = Console.ReadLine();
 
             // Initialize client with username and password we just fetched.
-            DegiroClient Client = new DegiroClient(username, password);
+            DegiroClient client = new DegiroClient();
 
-            if (Client.Login())
+
+            if (client.Login(username, password))
             {
                 Console.WriteLine("Successful login.");
+
+                Console.WriteLine("");
+                Console.WriteLine("");
+
+                Console.WriteLine($"{client.ClientInfo.Data.Username}, {client.ClientInfo.Data.IntAccount}");
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine("Invalid credentials.");
+                Console.ReadLine();
             }
 
-            Console.WriteLine("");
-            Console.WriteLine("");
-
-            Console.WriteLine($"{Client.ClientInfo.Data.Username}, {Client.ClientInfo.Data.IntAccount}");
-            Console.ReadLine();
         }
     }
 }
