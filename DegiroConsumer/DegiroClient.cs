@@ -69,6 +69,7 @@ namespace DegiroConsumer
             }
             #endregion
 
+            Console.Write(response.Content);
 
             // This acts as a discovery of available services. See the SiteConfig class for information.
             UpdateConfig();
@@ -87,10 +88,16 @@ namespace DegiroConsumer
             var req = new RequestHelper<SiteConfig>();
             var response = req.Perform(APIConstants.BaseUrl, "/login/secure/config", Method.GET, true, SessionId);
 
+            Console.Write(response.Content);
+
             SiteConfig = response.Data;
 
-            // Fetch client info which will also be stored.
-            GetClientInfo();
+            if (SiteConfig != null)
+            {
+                // Fetch client info which will also be stored.
+                GetClientInfo(SiteConfig);
+            }
+
 
             return response.Data;
         }
@@ -99,10 +106,13 @@ namespace DegiroConsumer
         /// GetClientInfo returns data about the user. See the ClientInfo class.
         /// </summary>
         /// <returns></returns>
-        public ClientInfo GetClientInfo()
+        public ClientInfo GetClientInfo(SiteConfig siteConfig)
         {
             var req = new RequestHelper<ClientInfo>();
-            var response = req.Perform(SiteConfig.PaUrl, $"/client?sessionId={SessionId}", Method.GET, true, SessionId);
+
+            Console.WriteLine(siteConfig.PaUrl);
+
+            var response = req.Perform(siteConfig.PaUrl, $"/client?sessionId={SessionId}", Method.GET, true, SessionId);
 
             // Update client info.
             ClientInfo = response.Data;

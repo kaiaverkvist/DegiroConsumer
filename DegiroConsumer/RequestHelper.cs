@@ -25,10 +25,6 @@ namespace DegiroConsumer
             }
 
             IRestResponse<T> response = restClient.Execute<T>(request);
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new Exception($"Unable to access endpoint: {endpoint}. StatusCode: {response.StatusCode}");
-            }
 
             return response;
         }

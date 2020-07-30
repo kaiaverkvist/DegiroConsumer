@@ -24,6 +24,9 @@ namespace DegiroDevelopmentEnvironment
                 Console.WriteLine("Successful login.");
 
                 Console.WriteLine("");
+
+                client.GetClientInfo();
+
                 Console.WriteLine("");
 
                 Console.WriteLine($"{client.ClientInfo.Data.Username}, {client.ClientInfo.Data.IntAccount}");
